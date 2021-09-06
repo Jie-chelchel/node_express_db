@@ -1,10 +1,21 @@
 const express = require("express");
 const server = express();
+const Lessons = require("./models/dbHelpers");
 server.use(express.json());
 const port = 5000;
 
-server.get("/", (req, res) => {
-  res.send("hhhhh");
+server.get("/api/lessons", (req, res) => {
+  Lessons.find()
+    .then((lessons) => {
+      res.status(200).json(lessons);
+    })
+    .catch((err) => console.log(err));
+});
+
+server.post("/api/lessons", (req, res) => {
+  Lessons.add(req.body)
+    .then((lessonId) => res.status(200).json(lessonId))
+    .catch((err) => console.log(err));
 });
 
 server.listen(port, () => {
@@ -23,3 +34,5 @@ server.listen(port, () => {
 //5 know let run migration , table will be in your data folder
 // npx knex migrate:latest
 //now you get your database
+
+//5. make a models folder, dbHelper.js file that is where you write your knex queries
