@@ -12,9 +12,28 @@ server.get("/api/lessons", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+server.get("/api/lessons/:id", (req, res) => {
+  Lessons.findById(req.params.id)
+    .then((lesson) => {
+      res.status(200).json(lesson);
+    })
+    .catch((err) => console.log(err));
+});
 server.post("/api/lessons", (req, res) => {
   Lessons.add(req.body)
     .then((lessonId) => res.status(200).json(lessonId))
+    .catch((err) => console.log(err));
+});
+
+server.put("/api/lessons/:id", (req, res) => {
+  Lessons.update(req.params.id, req.body)
+    .then((lesson) => res.status(200).json({ message: "updated" }))
+    .catch((err) => console.log(err));
+});
+
+server.delete("/api/lessons/:id", (req, res) => {
+  Lessons.remove(req.params.id)
+    .then((count) => res.status(200).json({ message: "deleted" }))
     .catch((err) => console.log(err));
 });
 

@@ -18,4 +18,17 @@ const find = async () => {
   const lessons = await db("lessons");
   return lessons;
 };
-module.exports = { add, find };
+
+const findById = async (id) => {
+  const selectedLesson = await db("lessons").where({ id }).first();
+  return selectedLesson;
+};
+
+const update = (id, updatedLesson) => {
+  return db("lessons").where({ id }).update(updatedLesson, [id]);
+};
+
+const remove = (id) => {
+  return db("lessons").where({ id }).del();
+};
+module.exports = { add, remove, find, findById, update };
